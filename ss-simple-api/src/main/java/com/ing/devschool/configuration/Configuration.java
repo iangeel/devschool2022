@@ -2,8 +2,13 @@ package com.ing.devschool.configuration;
 
 import com.ing.devschool.domain.Account;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @org.springframework.context.annotation.Configuration
@@ -19,5 +24,10 @@ public class Configuration {
         bankAccounts.put(account2.getIban(), account2);
 
         return bankAccounts;
+    }
+
+    @Bean
+    public List<User> users() {
+        return Arrays.asList();
     }
 }
