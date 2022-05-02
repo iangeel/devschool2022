@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
+import static com.ing.devschool.domain.PaymentsResponse.Currency.RON;
 import static java.util.Optional.ofNullable;
 
 @Service
@@ -19,7 +20,12 @@ public class PaymentsService {
 
     public PaymentsResponse pay(final PaymentRequest paymentRequest) {
         moveMoney(paymentRequest.getFrom(), paymentRequest.getTo(), paymentRequest.getAmount());
-        return new PaymentsResponse(bankAccounts.get(paymentRequest.getFrom()).getBalance());
+        return new PaymentsResponse(bankAccounts.get(paymentRequest.getFrom()).getBalance(), RON);
+    }
+
+    public PaymentsResponse pay(final PaymentRequest paymentRequest, String currency) {
+        moveMoney(paymentRequest.getFrom(), paymentRequest.getTo(), paymentRequest.getAmount());
+        return new PaymentsResponse(bankAccounts.get(paymentRequest.getFrom()).getBalance(), PaymentsResponse.Currency.valueOf(currency.toLowerCase()));
     }
 
     public WalletDetailsResponse getWalletDetails(final String iban) {

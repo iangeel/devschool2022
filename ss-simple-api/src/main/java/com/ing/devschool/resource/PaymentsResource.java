@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/payments")
 @RequiredArgsConstructor
 public class PaymentsResource {
 
@@ -21,6 +23,12 @@ public class PaymentsResource {
     @PostMapping(path = "/pay")
     public ResponseEntity<PaymentsResponse> pay(@RequestBody final PaymentRequest paymentRequest) {
         var response = paymentsService.pay(paymentRequest);
+        return ResponseEntity.status(201).body(response);
+    }
+
+    @PostMapping(path = "/pay/{currency}")
+    public ResponseEntity<PaymentsResponse> pay(@RequestBody final PaymentRequest paymentRequest, @PathVariable String currency) {
+        var response = paymentsService.pay(paymentRequest, currency);
         return ResponseEntity.status(201).body(response);
     }
 

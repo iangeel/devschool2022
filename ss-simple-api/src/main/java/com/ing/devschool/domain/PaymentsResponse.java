@@ -9,6 +9,12 @@ import lombok.RequiredArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaymentsResponse {
-
     private double currentBalance;
+    private Currency currency;
+
+    public enum Currency {
+        RON,
+        EUR,
+        USD
+    }
 }
