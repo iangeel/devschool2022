@@ -3,6 +3,7 @@ package com.ing.devschool.configuration;
 import com.ing.devschool.authentication.JwtAuthenticationEntryPoint;
 import com.ing.devschool.authentication.JwtAuthorizationTokenFilter;
 import com.ing.devschool.authentication.JwtTokenUtil;
+import com.ing.devschool.domain.Roles;
 import com.ing.devschool.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;

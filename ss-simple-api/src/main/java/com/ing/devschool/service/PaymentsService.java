@@ -7,7 +7,9 @@ import com.ing.devschool.domain.WalletDetailsResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.util.Optional.ofNullable;
 
@@ -37,4 +39,10 @@ public class PaymentsService {
                         new Account(account.getIban(), account.getBalance() + value)));
     }
 
+    public List<WalletDetailsResponse> getAllWallets() {
+        return bankAccounts.values()
+                .stream()
+                .map(b -> new WalletDetailsResponse(b.getIban(), b.getBalance()))
+                .collect(Collectors.toList());
+    }
 }

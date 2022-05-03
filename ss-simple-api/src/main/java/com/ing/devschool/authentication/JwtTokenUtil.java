@@ -8,15 +8,18 @@ import io.jsonwebtoken.impl.DefaultClock;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Component
 @Setter
@@ -26,6 +29,9 @@ public class JwtTokenUtil implements Serializable {
 
     @Value("${jwt.signing.key}")
     private String signingKey;
+
+    @Value("${jwt.authorities.key}")
+    public String authoritiesKey;
 
     @Value("${jwt.logged.in.expiration.days}")
     private Integer loggedInExpirationDays;
@@ -53,13 +59,17 @@ public class JwtTokenUtil implements Serializable {
                 .orElseThrow(() -> new AuthenticationCredentialsNotFoundException("No token provided."));
     }
 
-    public String generateToken(String subject) {
+    public String generateToken(UserDetails userDetails) {
         final Date createdDate = clock.now();
         final Date expirationDate = new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(loggedInExpirationDays));
+        final String authorities = userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
 
         return Jwts.builder()
-                .setSubject(subject)
+                .setSubject(userDetails.getUsername())
                 .setIssuedAt(createdDate)
+                .claim(authoritiesKey, authorities)
                 .setExpiration(expirationDate)
                 .signWith(SignatureAlgorithm.HS512, signingKey)
                 .compact();
