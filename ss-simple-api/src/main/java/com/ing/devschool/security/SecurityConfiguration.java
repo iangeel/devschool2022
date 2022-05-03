@@ -3,6 +3,7 @@ package com.ing.devschool.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -11,9 +12,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
-import static com.ing.devschool.security.roles.Permission.INTERNATIONAL_PAYMENTS;
-import static com.ing.devschool.security.roles.Permission.MOVE_MONEY;
-import static com.ing.devschool.security.roles.Permission.READ;
 import static com.ing.devschool.security.roles.Role.BLOCKED_CLIENT;
 import static com.ing.devschool.security.roles.Role.CLIENT;
 import static com.ing.devschool.security.roles.Role.GOLD_CLIENT;
@@ -22,16 +20,13 @@ import static com.ing.devschool.security.roles.Role.NO_KYC_CLIENT;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/exchangeRate/**").hasAuthority(READ.getPermission())
-                .antMatchers("/payments/pay").hasAuthority(MOVE_MONEY.getPermission())
-                .antMatchers("/payments/pay/**").hasAuthority(INTERNATIONAL_PAYMENTS.getPermission())
-                .antMatchers("/payments/wallet/**").hasAuthority(READ.getPermission())
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()
