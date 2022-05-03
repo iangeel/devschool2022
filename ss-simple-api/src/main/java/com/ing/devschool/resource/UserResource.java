@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping(value = "/user")
 public class UserResource {
 
     private UserService userService;

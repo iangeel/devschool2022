@@ -1,15 +1,13 @@
 package com.ing.devschool.configuration;
 
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.ing.devschool.domain.Account;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @org.springframework.context.annotation.Configuration
 public class Configuration {
@@ -28,6 +26,11 @@ public class Configuration {
 
     @Bean
     public List<User> users() {
-        return Arrays.asList();
+        return new ArrayList<>();
+    }
+
+    @Bean
+    public PasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
