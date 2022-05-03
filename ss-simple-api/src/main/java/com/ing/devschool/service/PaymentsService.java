@@ -25,7 +25,7 @@ public class PaymentsService {
 
     public PaymentsResponse pay(final PaymentRequest paymentRequest, String currency) {
         moveMoney(paymentRequest.getFrom(), paymentRequest.getTo(), paymentRequest.getAmount());
-        return new PaymentsResponse(bankAccounts.get(paymentRequest.getFrom()).getBalance(), PaymentsResponse.Currency.valueOf(currency.toLowerCase()));
+        return new PaymentsResponse(bankAccounts.get(paymentRequest.getFrom()).getBalance(), PaymentsResponse.Currency.valueOf(currency.toUpperCase()));
     }
 
     public WalletDetailsResponse getWalletDetails(final String iban) {

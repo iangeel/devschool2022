@@ -7,7 +7,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum Permission {
     MOVE_MONEY("move_money"),
-    READ_BALANCE("read_balance");
+    READ("read_balance"),
+    INTERNATIONAL_PAYMENTS("international_payments");
 
     private final String permission;
 }
